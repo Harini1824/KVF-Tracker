@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Set New PIN</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-header">
+      <h1>Set new login PIN</h1>
+      <p>Choose a 4‑digit PIN and confirm it to continue.</p>
+    </div>
+
+    <form method="POST" action="/set-pin">
+      <div class="form-group">
+        <label>New PIN *</label>
+        <input
+          name="newPin"
+          type="password"
+          minlength="4"
+          maxlength="4"
+          placeholder="Enter the new PIN"
+          required
+        >
+        <div class="helper-text">4‑digit numeric PIN.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Confirm PIN *</label>
+        <input
+          name="confirmPin"
+          type="password"
+          minlength="4"
+          maxlength="4"
+          placeholder="Re‑enter the new PIN"
+          required
+        >
+      </div>
+
+      <div class="form-actions">
+        <button class="primary-btn" type="submit">Save PIN</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
