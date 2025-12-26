@@ -3,10 +3,6 @@
 **KVF-Tracker** is a web-based tracking application built with Node.js, Express, and front-end views.  
 It helps you monitor and visualize tracking data (e.g., locations, items, or events) — ideal for real-time dashboards and inventory tracking.
 
-> A simple yet powerful tracker using web technologies for real-time or logged data display.
-
----
-
 ## 🧠 Features
 
 - 🕸️ Server built with **Node.js** and **Express**
@@ -25,7 +21,7 @@ It helps you monitor and visualize tracking data (e.g., locations, items, or eve
 | HTML/CSS   | Front-end views            |
 | JavaScript | Logic and interactivity    |
 
-*(Add exact versions if you want — look in `package.json`)*
+
 
 ---
 
