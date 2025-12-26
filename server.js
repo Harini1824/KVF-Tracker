@@ -5,8 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();          // load .env
 
 const app = express();
-// Use Render's port in production, 3000 locally
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // --- MongoDB connection + User model ---
 console.log('MONGO_URI =', process.env.MONGO_URI);
@@ -23,7 +22,7 @@ const userSchema = new mongoose.Schema({
   phone: String,
   email: { type: String, unique: true },
   role: String,
-  pin: String,                            // current PIN (temp or custom)
+  pin: String,                     // current PIN (temp or custom)
   hasCustomPin: { type: Boolean, default: false }, // false after register
   status: { type: String, default: 'active' }      // active / inactive
 });
@@ -109,7 +108,7 @@ function renderRegister(res, options = {}) {
     <body>
       <div class="form-container">
         <div class="form-header">
-          <h1>KVF Student Training Progress Tracker</h1>
+          <h1>KVF Training Programme Management System</h1>
           <p>Complete this form to register. Fields marked with * are required.</p>
         </div>
 
@@ -271,14 +270,11 @@ app.post('/register', async (req, res) => {
 
   // 3) send email with temporary PIN
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    requireTLS: true,
+    service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS, // Gmail App Password recommended
-    },
+      pass: process.env.EMAIL_PASS
+    }
   });
 
   await transporter.sendMail({
@@ -351,7 +347,4 @@ app.post('/manage/status', async (req, res) => {
   res.send(`Status updated to ${status}`);
 });
 
-// start server (works locally and on Render)
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
