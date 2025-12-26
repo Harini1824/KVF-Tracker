@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();          // load .env
 
 const app = express();
-const PORT = 3000;
+// Use Render's port in production, 3000 locally
+const PORT = process.env.PORT || 3000;
 
 // --- MongoDB connection + User model ---
 console.log('MONGO_URI =', process.env.MONGO_URI);
@@ -22,7 +23,7 @@ const userSchema = new mongoose.Schema({
   phone: String,
   email: { type: String, unique: true },
   role: String,
-  pin: String,                     // current PIN (temp or custom)
+  pin: String,                            // current PIN (temp or custom)
   hasCustomPin: { type: Boolean, default: false }, // false after register
   status: { type: String, default: 'active' }      // active / inactive
 });
@@ -270,11 +271,14 @@ app.post('/register', async (req, res) => {
 
   // 3) send email with temporary PIN
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+      pass: process.env.EMAIL_PASS, // Gmail App Password recommended
+    },
   });
 
   await transporter.sendMail({
@@ -347,4 +351,7 @@ app.post('/manage/status', async (req, res) => {
   res.send(`Status updated to ${status}`);
 });
 
-app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
+// start server (works locally and on Render)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
