@@ -37,7 +37,7 @@ It helps you monitor and visualize tracking data (e.g., locations, items, or eve
    
    cd KVF-Tracker
    
-2.Install dependencies:
+2. Install dependencies:
 
    npm install
     
@@ -45,7 +45,7 @@ It helps you monitor and visualize tracking data (e.g., locations, items, or eve
    
    npm start
 
-5. Open in your browser
+4. Open in your browser
    
    http://localhost:3000
    
