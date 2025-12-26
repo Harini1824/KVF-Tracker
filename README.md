@@ -35,14 +35,6 @@ It helps you monitor and visualize tracking data (e.g., locations, items, or eve
    ```bash
    git clone https://github.com/Harini1824/KVF-Tracker.git
    cd KVF-Tracker
-   2Install dependencies:
- ```bash
-  npm install
-3.Start the server:
-
-npm start
-
-
-Open in your browser:
-
-http://localhost:3000
+2.Install dependencies:
+   ```bash
+   npm install
