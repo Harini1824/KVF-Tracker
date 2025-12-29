@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KVF Voice Assistant</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* Only assistant-specific styles - uses your existing CSS classes */
+    .ai-chat { 
+      background: #f8fafc; 
+      border-radius: 12px; 
+      padding: 20px; 
+      min-height: 300px;
+      margin: 20px 0;
+    }
+    .ai-message { 
+      margin: 12px 0; 
+      padding: 12px 16px; 
+      border-radius: 8px; 
+      max-width: 80%; 
+    }
+    .ai-message.bot { 
+      background: #3b82f6; 
+      color: white; 
+      margin-left: auto; 
+    }
+    .ai-message.user { 
+      background: #e2e8f0; 
+      color: #1e293b; 
+    }
+    .status { 
+      text-align: center; 
+      font-size: 18px; 
+      margin: 20px 0; 
+      padding: 16px;
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+    .listening { 
+      color: #ef4444; 
+      animation: pulse 1.5s infinite; 
+    }
+    @keyframes pulse { 
+      0%, 100% { opacity: 1; } 
+      50% { opacity: 0.5; } 
+    }
+    .mic-btn { 
+      background: #10b981; 
+      color: white; 
+      font-size: 24px; 
+      width: 80px; 
+      height: 80px; 
+      border-radius: 50%; 
+      border: none;
+    }
+    .mic-listening { 
+      background: #ef4444; 
+      box-shadow: 0 0 20px #ef4444; 
+    }
+    .option-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container" role="main">
+    <div class="form-header">
+      <h1>🤖 KVF Voice Assistant</h1>
+      <p>குரல் மூலம் உங்கள் தேர்வை சொல்லுங்கள் / Speak your choice</p>
+    </div>
+
+    <!-- Chat history for screen readers -->
+    <div class="ai-chat" id="chat" aria-live="polite" role="log">
+      <div class="ai-message bot">
+        <strong>வணக்கம்! நான் உங்கள் KVF உதவியாளர்.</strong><br>
+        <em>Vanakkam! I am your KVF assistant.</em>
+      </div>
+    </div>
+
+    <!-- Live status updates -->
+    <div class="status" id="status" aria-live="assertive" role="status">
+      🎤 "லேர்னிங்", "அட்டெண்டன்ஸ்" அல்லது "லீவ்" சொல்லுங்கள்<br>
+      Say "learning", "attendance" or "leave"
+    </div>
+
+    <!-- Main controls using your existing button styles -->
+    <div style="text-align: center; margin-bottom: 20px;">
+      <button id="startListening" class="mic-btn" aria-label="Start voice conversation" autofocus>
+        🎤
+      </button>
+      <div style="margin-top: 12px; font-size: 14px;">
+        அழுத்தி பேசுங்கள் / Press to speak
+      </div>
+    </div>
+
+    <!-- Fallback buttons (hidden initially) - using your primary-btn style -->
+    <div id="fallbackButtons" class="option-buttons" style="display: none;">
+      <a href="/learning" class="primary-btn">லேர்னிங் ட்ராக்கர்</a>
+      <a href="/attendance" class="primary-btn">அட்டெண்டன்ஸ்</a>
+      <a href="/leave" class="primary-btn">லீவ் ட்ராக்கர்</a>
+    </div>
+  </div>
+
+  <script src="/assistant.js"></script>
+</body>
+</html>

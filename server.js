@@ -22,14 +22,14 @@ const userSchema = new mongoose.Schema({
   phone: String,
   email: { type: String, unique: true },
   role: String,
-  pin: String,                     // current PIN (temp or custom)
+  pin: String,                        // current PIN (temp or custom)
   hasCustomPin: { type: Boolean, default: false }, // false after register
   status: { type: String, default: 'active' }      // active / inactive
 });
 
 const User = mongoose.model('User', userSchema);
 
-// TEMP: store logged‑in user email just for testing
+// TEMP: store logged-in user email just for testing
 let currentUserEmail = null;
 
 console.log('EMAIL_USER =', process.env.EMAIL_USER);
@@ -139,14 +139,14 @@ function renderRegister(res, options = {}) {
           </div>
 
           <div class="form-group">
-            <label>E‑mail ID *</label>
+            <label>E-mail ID *</label>
             <input
               name="email"
               type="email"
-              placeholder="Enter the e‑mail address"
+              placeholder="Enter the e-mail address"
               required
             >
-            <div class="helper-text">Enter a valid e‑mail address.</div>
+            <div class="helper-text">Enter a valid e-mail address.</div>
           </div>
 
           <div class="form-group">
@@ -171,7 +171,7 @@ function renderRegister(res, options = {}) {
   `);
 }
 
-// helper to render set‑pin page with optional error
+// helper to render set-pin page with optional error
 function renderSetPin(res, errorMessage = '') {
   const errorHtml = errorMessage
     ? `<p style="color:#dc2626;font-size:14px;margin-bottom:8px;">${errorMessage}</p>`
@@ -189,7 +189,7 @@ function renderSetPin(res, errorMessage = '') {
       <div class="form-container">
         <div class="form-header">
           <h1>Set new login PIN</h1>
-          <p>Choose a 4‑digit PIN and confirm it to continue.</p>
+          <p>Choose a 4-digit PIN and confirm it to continue.</p>
         </div>
 
         ${errorHtml}
@@ -199,7 +199,7 @@ function renderSetPin(res, errorMessage = '') {
             <label>New PIN *</label>
             <input name="newPin" type="password" minlength="4" maxlength="4"
                    placeholder="Enter the new PIN" required>
-            <div class="helper-text">4‑digit numeric PIN.</div>
+            <div class="helper-text">4-digit numeric PIN.</div>
           </div>
 
           <div class="form-group">
@@ -233,13 +233,19 @@ app.get('/login', (req, res) => {
   renderLogin(res);
 });
 
-// dashboard page
+// NEW: Voice Assistant page (replaces dashboard as landing page)
+app.get('/assistant', (req, res) => {
+  if (!currentUserEmail) return res.redirect('/login');
+  res.sendFile(path.join(__dirname, 'views', 'assistant.html'));
+});
+
+// OLD dashboard (kept for backward compatibility)
 app.get('/dashboard', (req, res) => {
   if (!currentUserEmail) return res.redirect('/login');
   res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
 });
 
-// set‑pin page
+// set-pin page
 app.get('/set-pin', (req, res) => {
   if (!currentUserEmail) return res.redirect('/login');
   renderSetPin(res);
@@ -258,7 +264,7 @@ app.post('/register', async (req, res) => {
     });
   }
 
-  // 1) generate 4‑digit temporary PIN
+  // 1) generate 4-digit temporary PIN
   const pin = Math.floor(1000 + Math.random() * 9000).toString();
 
   // 2) save user + temp pin + role + phone to MongoDB
@@ -269,7 +275,7 @@ app.post('/register', async (req, res) => {
   );
 
   // 3) send email with temporary PIN
-  const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransporter({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
@@ -312,7 +318,8 @@ app.post('/login', async (req, res) => {
     return res.redirect('/set-pin');
   }
 
-  return res.redirect('/dashboard');
+  // CHANGED: Go to assistant instead of dashboard
+  return res.redirect('/assistant');
 });
 
 // handle new PIN submit – update DB, then force login again
